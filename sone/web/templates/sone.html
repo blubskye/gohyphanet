@@ -1,0 +1,71 @@
+{{template "base" .}}
+
+{{define "content"}}
+<div class="page-sone">
+    <div class="sone-profile">
+        <div class="profile-header">
+            <div class="profile-avatar">
+                {{if .Sone.Profile.Avatar}}
+                <img src="/image/{{.Sone.Profile.Avatar}}" alt="Avatar">
+                {{else}}
+                <div class="avatar-placeholder">{{shortID .Sone.Name}}</div>
+                {{end}}
+            </div>
+            <div class="profile-info">
+                <h1>{{.Sone.Name}}</h1>
+                {{if .Sone.Profile}}
+                <p class="profile-name">
+                    {{.Sone.Profile.FirstName}}
+                    {{.Sone.Profile.MiddleName}}
+                    {{.Sone.Profile.LastName}}
+                </p>
+                {{end}}
+                <p class="profile-id">ID: {{shortID .Sone.ID}}</p>
+                <p class="profile-status">Status: {{.Sone.Status}}</p>
+            </div>
+            <div class="profile-actions">
+                {{if not .IsSelf}}
+                    {{if .IsFollowed}}
+                    <button class="btn btn-secondary" onclick="unfollowSone('{{.Sone.ID}}')">Unfollow</button>
+                    {{else}}
+                    <button class="btn btn-primary" onclick="followSone('{{.Sone.ID}}')">Follow</button>
+                    {{end}}
+                {{end}}
+            </div>
+        </div>
+
+        {{if .Sone.Profile}}
+        <div class="profile-details">
+            {{if .Sone.Profile.Fields}}
+            <div class="profile-fields">
+                {{range .Sone.Profile.Fields}}
+                <div class="profile-field">
+                    <span class="field-name">{{.Name}}:</span>
+                    <span class="field-value">{{.Value}}</span>
+                </div>
+                {{end}}
+            </div>
+            {{end}}
+        </div>
+        {{end}}
+
+        <div class="profile-stats">
+            <span>{{len .Posts}} posts</span>
+            <span>Last active: {{formatTime .Sone.Time}}</span>
+        </div>
+    </div>
+
+    <div class="sone-posts">
+        <h2>Posts</h2>
+        {{if .Posts}}
+            {{range .Posts}}
+            {{template "post" .}}
+            {{end}}
+        {{else}}
+        <div class="empty-state">
+            <p>No posts yet.</p>
+        </div>
+        {{end}}
+    </div>
+</div>
+{{end}}

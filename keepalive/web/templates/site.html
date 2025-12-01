@@ -1,0 +1,93 @@
+{{template "base" .}}
+
+{{define "content"}}
+<h1>{{.Site.Name}}</h1>
+
+<div class="site-info">
+    <div class="info-row">
+        <span class="info-label">URI:</span>
+        <span class="info-value uri-text">{{.Site.URI}}</span>
+    </div>
+    <div class="info-row">
+        <span class="info-label">State:</span>
+        <span class="badge badge-{{stateClass .Site.State.String}}">{{.Site.State}}</span>
+    </div>
+    <div class="info-row">
+        <span class="info-label">Availability:</span>
+        <span class="info-value">{{formatPercent .Site.Availability}}</span>
+    </div>
+    <div class="info-row">
+        <span class="info-label">Total Blocks:</span>
+        <span class="info-value">{{.Site.TotalBlocks}}</span>
+    </div>
+    <div class="info-row">
+        <span class="info-label">Available Blocks:</span>
+        <span class="info-value">{{.Site.AvailableBlocks}}</span>
+    </div>
+    <div class="info-row">
+        <span class="info-label">Segments:</span>
+        <span class="info-value">{{len .Site.Segments}}</span>
+    </div>
+    <div class="info-row">
+        <span class="info-label">Added:</span>
+        <span class="info-value">{{formatTime .Site.AddedAt}}</span>
+    </div>
+    <div class="info-row">
+        <span class="info-label">Last Update:</span>
+        <span class="info-value">{{formatTime .Site.LastUpdate}}</span>
+    </div>
+</div>
+
+<div class="site-actions">
+    <form action="/action/start" method="POST" style="display:inline">
+        <input type="hidden" name="id" value="{{.Site.ID}}">
+        <button type="submit" class="btn btn-primary">Start Reinsertion</button>
+    </form>
+    <form action="/action/delete" method="POST" style="display:inline">
+        <input type="hidden" name="id" value="{{.Site.ID}}">
+        <button type="submit" class="btn btn-danger" onclick="return confirm('Delete this site?')">Delete</button>
+    </form>
+</div>
+
+{{if .Site.Segments}}
+<h2>Segments</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>State</th>
+            <th>Data Blocks</th>
+            <th>Check Blocks</th>
+            <th>Availability</th>
+            <th>Fetched</th>
+            <th>Inserted</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{range .Site.Segments}}
+        <tr>
+            <td>{{.ID}}</td>
+            <td><span class="badge badge-{{stateClass .State.String}}">{{.State}}</span></td>
+            <td>{{.DataCount}}</td>
+            <td>{{.CheckCount}}</td>
+            <td>{{formatPercent .Availability}}</td>
+            <td>{{.FetchSuccess}} / {{len .Blocks}}</td>
+            <td>{{.InsertSuccess}}</td>
+        </tr>
+        {{end}}
+    </tbody>
+</table>
+{{end}}
+
+{{if .Logs}}
+<h2>Activity Log</h2>
+<div class="log-viewer">
+    {{range .Logs}}
+    <div class="log-entry log-level-{{.Level}}">
+        <span class="log-time">{{formatTime .Time}}</span>
+        <span class="log-message">{{.Message}}</span>
+    </div>
+    {{end}}
+</div>
+{{end}}
+{{end}}

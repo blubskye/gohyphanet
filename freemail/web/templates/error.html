@@ -1,0 +1,10 @@
+{{template "base" .}}
+{{define "content"}}
+<div class="error-page">
+    <h2>Error</h2>
+    <div class="alert alert-error">
+        {{.Error}}
+    </div>
+    <a href="/inbox" class="btn">Back to Inbox</a>
+</div>
+{{end}}

@@ -1,0 +1,36 @@
+{{define "base"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a href="/">GoKeepalive</a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/">Dashboard</a></li>
+            <li><a href="/sites">Sites</a></li>
+            <li><a href="/add">Add Site</a></li>
+            <li><a href="/stats">Statistics</a></li>
+            <li><a href="/settings">Settings</a></li>
+            <li><a href="/about">About</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        {{template "content" .}}
+    </main>
+
+    <footer class="footer">
+        <p>GoKeepalive v0.1.0 - Hyphanet Content Reinserter</p>
+    </footer>
+
+    <script src="/static/js/keepalive.js"></script>
+</body>
+</html>
+{{end}}

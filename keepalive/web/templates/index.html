@@ -1,0 +1,100 @@
+{{template "base" .}}
+
+{{define "content"}}
+<h1>Dashboard</h1>
+
+<div class="status-panel">
+    <h2>Reinserter Status</h2>
+    <div class="status-info">
+        <span class="status-label">State:</span>
+        <span class="status-value status-{{.State}}">{{.State}}</span>
+    </div>
+
+    {{if .ActiveSite}}
+    <div class="active-site">
+        <h3>Active Site: {{.ActiveSite.Name}}</h3>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+        </div>
+        <p id="progress-text">Processing...</p>
+    </div>
+
+    <div class="controls">
+        {{if eq .State "running"}}
+        <form action="/action/pause" method="POST" style="display:inline">
+            <button type="submit" class="btn btn-warning">Pause</button>
+        </form>
+        <form action="/action/stop" method="POST" style="display:inline">
+            <button type="submit" class="btn btn-danger">Stop</button>
+        </form>
+        {{else if eq .State "paused"}}
+        <form action="/action/resume" method="POST" style="display:inline">
+            <button type="submit" class="btn btn-success">Resume</button>
+        </form>
+        <form action="/action/stop" method="POST" style="display:inline">
+            <button type="submit" class="btn btn-danger">Stop</button>
+        </form>
+        {{end}}
+    </div>
+    {{else}}
+    <p>No active reinsertion. <a href="/sites">Select a site</a> to begin.</p>
+    {{end}}
+</div>
+
+<div class="stats-summary">
+    <h2>Session Statistics</h2>
+    <div class="stats-grid">
+        <div class="stat-item">
+            <span class="stat-value">{{.Stats.SitesProcessed}}</span>
+            <span class="stat-label">Sites Processed</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-value">{{.Stats.SegmentsHealed}}</span>
+            <span class="stat-label">Segments Healed</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-value">{{.Stats.BlocksFetched}}</span>
+            <span class="stat-label">Blocks Fetched</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-value">{{.Stats.BlocksInserted}}</span>
+            <span class="stat-label">Blocks Inserted</span>
+        </div>
+    </div>
+</div>
+
+{{if .Sites}}
+<div class="sites-list">
+    <h2>Sites</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>State</th>
+                <th>Availability</th>
+                <th>Segments</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range .Sites}}
+            <tr>
+                <td><a href="/site/{{.ID}}">{{.Name}}</a></td>
+                <td><span class="badge badge-{{stateClass .State.String}}">{{.State}}</span></td>
+                <td>{{formatPercent .Availability}}</td>
+                <td>{{len .Segments}}</td>
+                <td>
+                    {{if eq $.State "idle"}}
+                    <form action="/action/start" method="POST" style="display:inline">
+                        <input type="hidden" name="id" value="{{.ID}}">
+                        <button type="submit" class="btn btn-sm btn-primary">Start</button>
+                    </form>
+                    {{end}}
+                </td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+</div>
+{{end}}
+{{end}}

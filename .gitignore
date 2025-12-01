@@ -1,0 +1,61 @@
+# Binaries (root level only)
+/fcpctl
+/fcpget
+/fcpkey
+/fcpput
+/fcpsitemgr
+/gofreemail
+/gokeepalive
+/seedconnect
+/simple-node
+/testwrapper
+/wottest
+
+# Build artifacts
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Test files
+*.test
+*.out
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Data files
+*.db
+keys.db
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+
+# Build directory
+/build/
+
+# Go workspace
+go.work
+go.work.sum
+
+# Local data
+.gofreemail/
+.gokeepalive/
+.gosone/
+
+# Notes and scratch
+progress_*.txt
+freesites_home.txt
+
+# Grok AI artifacts
+.grok/

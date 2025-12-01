@@ -1,0 +1,42 @@
+{{template "base" .}}
+
+{{define "content"}}
+<div class="page-known-sones">
+    <h1>Known Sones</h1>
+
+    <div class="sone-filters">
+        <form method="get" class="filter-form">
+            <input type="text" name="filter" placeholder="Filter by name..." value="{{.Filter}}">
+            <select name="sort">
+                <option value="name" {{if eq .SortBy "name"}}selected{{end}}>Sort by Name</option>
+                <option value="posts" {{if eq .SortBy "posts"}}selected{{end}}>Sort by Posts</option>
+                <option value="activity" {{if eq .SortBy "activity"}}selected{{end}}>Sort by Activity</option>
+            </select>
+            <button type="submit" class="btn">Filter</button>
+        </form>
+    </div>
+
+    <div class="sone-list">
+        {{if .Sones}}
+            {{range .Sones}}
+            <div class="sone-card">
+                <a href="/sone/{{.ID}}" class="sone-name">{{.Name}}</a>
+                <div class="sone-meta">
+                    <span>{{len .Posts}} posts</span>
+                    <span>{{.Status}}</span>
+                </div>
+                {{if .Profile}}
+                <div class="sone-profile-preview">
+                    {{.Profile.FirstName}} {{.Profile.LastName}}
+                </div>
+                {{end}}
+            </div>
+            {{end}}
+        {{else}}
+        <div class="empty-state">
+            <p>No Sones found.</p>
+        </div>
+        {{end}}
+    </div>
+</div>
+{{end}}

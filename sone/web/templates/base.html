@@ -1,0 +1,80 @@
+{{define "base"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a href="/">GoSone</a>
+        </div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/known-sones">Known Sones</a>
+            <a href="/bookmarks">Bookmarks</a>
+            <a href="/search">Search</a>
+            {{if .CurrentSone}}
+            <a href="/sone/{{.CurrentSone.ID}}">My Sone</a>
+            <a href="/create-post">New Post</a>
+            {{end}}
+            <a href="/options">Options</a>
+        </div>
+        <div class="nav-user">
+            {{if .CurrentSone}}
+            <span class="current-user">{{.CurrentSone.Name}}</span>
+            <a href="/login" class="btn-small">Switch</a>
+            {{else}}
+            <a href="/login" class="btn-small">Login</a>
+            {{end}}
+        </div>
+    </nav>
+
+    {{if .Notifications}}
+    <div class="notifications">
+        {{range .Notifications}}
+        <div class="notification notification-{{.Type}}" data-id="{{.ID}}">
+            <span class="notification-text">
+                {{if eq .Type "new-posts"}}
+                    {{len .Elements}} new post(s)
+                {{else if eq .Type "new-replies"}}
+                    {{len .Elements}} new reply(ies)
+                {{else if eq .Type "new-sones"}}
+                    {{len .Elements}} new Sone(s) discovered
+                {{else if eq .Type "mentions"}}
+                    You were mentioned in {{len .Elements}} post(s)
+                {{else}}
+                    {{.Text}}
+                {{end}}
+            </span>
+            {{if .Dismissable}}
+            <button class="btn-dismiss" onclick="dismissNotification('{{.ID}}')">×</button>
+            {{end}}
+        </div>
+        {{end}}
+    </div>
+    {{end}}
+
+    {{if .Error}}
+    <div class="alert alert-error">{{.Error}}</div>
+    {{end}}
+
+    {{if .Success}}
+    <div class="alert alert-success">{{.Success}}</div>
+    {{end}}
+
+    <main class="container">
+        {{template "content" .}}
+    </main>
+
+    <footer class="footer">
+        <p>GoSone v0.1.0 - A Go implementation of Sone for Hyphanet</p>
+    </footer>
+
+    <script src="/static/js/sone.js"></script>
+</body>
+</html>
+{{end}}

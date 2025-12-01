@@ -1,0 +1,47 @@
+{{template "base" .}}
+
+{{define "content"}}
+<h1>Settings</h1>
+
+<form action="/settings" method="POST" class="form">
+    <h2>Worker Settings</h2>
+
+    <div class="form-group">
+        <label for="power">Concurrent Workers (Power)</label>
+        <input type="number" id="power" name="power" min="1" max="20"
+               value="{{if .Config}}{{.Config.Power}}{{else}}5{{end}}" class="form-control">
+        <p class="form-help">Number of concurrent fetch/insert operations (1-20). Higher values are faster but use more bandwidth.</p>
+    </div>
+
+    <h2>Reinsertion Settings</h2>
+
+    <div class="form-group">
+        <label for="tolerance">Skip Tolerance (%)</label>
+        <input type="number" id="tolerance" name="tolerance" min="0" max="100"
+               value="{{if .Config}}{{.Config.SplitfileTolerance}}{{else}}70{{end}}" class="form-control">
+        <p class="form-help">Skip reinsertion if availability is above this percentage</p>
+    </div>
+
+    <div class="form-group">
+        <label for="test_size">Test Sample Size (%)</label>
+        <input type="number" id="test_size" name="test_size" min="10" max="100"
+               value="{{if .Config}}{{.Config.SplitfileTestSize}}{{else}}50{{end}}" class="form-control">
+        <p class="form-help">Percentage of blocks to sample for availability testing</p>
+    </div>
+
+    <h2>Logging</h2>
+
+    <div class="form-group">
+        <label for="log_level">Log Level</label>
+        <select id="log_level" name="log_level" class="form-control">
+            <option value="0" {{if and .Config (eq .Config.LogLevel 0)}}selected{{end}}>Info</option>
+            <option value="1" {{if and .Config (eq .Config.LogLevel 1)}}selected{{end}}>Detail</option>
+            <option value="2" {{if and .Config (eq .Config.LogLevel 2)}}selected{{end}}>Debug</option>
+        </select>
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Save Settings</button>
+    </div>
+</form>
+{{end}}

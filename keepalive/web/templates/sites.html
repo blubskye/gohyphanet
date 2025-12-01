@@ -1,0 +1,46 @@
+{{template "base" .}}
+
+{{define "content"}}
+<h1>Sites</h1>
+
+<p><a href="/add" class="btn btn-primary">Add New Site</a></p>
+
+{{if .Sites}}
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>URI</th>
+            <th>State</th>
+            <th>Availability</th>
+            <th>Segments</th>
+            <th>Added</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{range .Sites}}
+        <tr>
+            <td>{{.ID}}</td>
+            <td><a href="/site/{{.ID}}">{{.Name}}</a></td>
+            <td class="uri-cell">{{.URI}}</td>
+            <td><span class="badge badge-{{stateClass .State.String}}">{{.State}}</span></td>
+            <td>{{formatPercent .Availability}}</td>
+            <td>{{len .Segments}}</td>
+            <td>{{formatTime .AddedAt}}</td>
+            <td>
+                <a href="/site/{{.ID}}" class="btn btn-sm btn-secondary">View</a>
+                <form action="/action/delete" method="POST" style="display:inline">
+                    <input type="hidden" name="id" value="{{.ID}}">
+                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete this site?')">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {{end}}
+    </tbody>
+</table>
+{{else}}
+<p class="empty-state">No sites added yet. <a href="/add">Add your first site</a>.</p>
+{{end}}
+{{end}}

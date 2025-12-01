@@ -1,0 +1,38 @@
+{{template "base" .}}
+{{define "content"}}
+<div class="message-view">
+    <div class="message-header">
+        <h2>{{if .Message.Subject}}{{.Message.Subject}}{{else}}(No Subject){{end}}</h2>
+        <div class="message-meta">
+            <div class="meta-row">
+                <span class="label">From:</span>
+                <span class="value">
+                    {{if .Message.From}}{{.Message.From.String}}{{else}}Unknown{{end}}
+                </span>
+            </div>
+            <div class="meta-row">
+                <span class="label">To:</span>
+                <span class="value">
+                    {{range $i, $to := .Message.To}}
+                        {{if $i}}, {{end}}{{$to.String}}
+                    {{end}}
+                </span>
+            </div>
+            <div class="meta-row">
+                <span class="label">Date:</span>
+                <span class="value">{{.Message.Date.Format "Mon, Jan 02 2006 15:04:05 MST"}}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="message-actions">
+        <a href="/compose?reply={{.FolderName}}/{{.Message.UID}}" class="btn">Reply</a>
+        <button class="btn btn-delete" onclick="deleteMessage('{{.FolderName}}', {{.Message.UID}}); window.location='/{{.FolderName}}';">Delete</button>
+        <a href="/{{.FolderName}}" class="btn">Back</a>
+    </div>
+
+    <div class="message-body">
+        <pre>{{printf "%s" .Message.Body}}</pre>
+    </div>
+</div>
+{{end}}

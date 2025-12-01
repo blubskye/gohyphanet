@@ -1,0 +1,32 @@
+{{template "base" .}}
+
+{{define "content"}}
+<div class="page-login">
+    <h1>Select Your Identity</h1>
+
+    {{if .LocalSones}}
+    <form method="post" class="login-form">
+        <p>Choose which Sone identity to use:</p>
+        <div class="identity-list">
+            {{range .LocalSones}}
+            <label class="identity-option">
+                <input type="radio" name="sone" value="{{.ID}}" {{if eq $.CurrentSone .}}checked{{end}}>
+                <span class="identity-name">{{.Name}}</span>
+                <span class="identity-id">{{shortID .ID}}</span>
+            </label>
+            {{end}}
+        </div>
+        <button type="submit" class="btn btn-primary">Continue</button>
+    </form>
+    {{else}}
+    <div class="empty-state">
+        <p>No local Sone identities found.</p>
+        <p>Make sure you have:</p>
+        <ol>
+            <li>Created an identity in Web of Trust</li>
+            <li>Added the "Sone" context to your identity</li>
+        </ol>
+    </div>
+    {{end}}
+</div>
+{{end}}

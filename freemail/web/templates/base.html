@@ -1,0 +1,53 @@
+{{define "base"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}} - GoFreemail</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    {{if .Session}}
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a href="/inbox">GoFreemail</a>
+        </div>
+        <div class="nav-links">
+            <a href="/compose" class="btn btn-primary">Compose</a>
+            <span class="user-info">{{.Account.Nickname}}</span>
+            <a href="/settings">Settings</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
+    <div class="container">
+        <aside class="sidebar">
+            <ul class="folder-list">
+                <li><a href="/inbox" {{if eq .FolderName "INBOX"}}class="active"{{end}}>
+                    Inbox {{if gt .UnreadCount 0}}<span class="badge">{{.UnreadCount}}</span>{{end}}
+                </a></li>
+                <li><a href="/sent" {{if eq .FolderName "Sent"}}class="active"{{end}}>Sent</a></li>
+                <li><a href="/drafts" {{if eq .FolderName "Drafts"}}class="active"{{end}}>Drafts</a></li>
+                <li><a href="/trash" {{if eq .FolderName "Trash"}}class="active"{{end}}>Trash</a></li>
+                {{range .Folders}}
+                {{if and (ne . "INBOX") (ne . "Sent") (ne . "Drafts") (ne . "Trash")}}
+                <li><a href="/folder/{{.}}">{{.}}</a></li>
+                {{end}}
+                {{end}}
+            </ul>
+        </aside>
+        <main class="content">
+            {{if .Error}}<div class="alert alert-error">{{.Error}}</div>{{end}}
+            {{if .Success}}<div class="alert alert-success">{{.Success}}</div>{{end}}
+            {{template "content" .}}
+        </main>
+    </div>
+    {{else}}
+    <div class="container login-container">
+        {{template "content" .}}
+    </div>
+    {{end}}
+    <script src="/static/js/freemail.js"></script>
+</body>
+</html>
+{{end}}

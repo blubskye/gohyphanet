@@ -1,0 +1,55 @@
+{{template "base" .}}
+
+{{define "content"}}
+<div class="page-options">
+    <h1>Options</h1>
+
+    <div class="options-section">
+        <h2>About GoSone</h2>
+        <p>GoSone is a Go implementation of the Sone social networking plugin for Hyphanet.</p>
+        <p>Version: 0.1.0</p>
+    </div>
+
+    <div class="options-section">
+        <h2>Current Status</h2>
+        <div id="status-info">
+            <p>Loading...</p>
+        </div>
+    </div>
+
+    <div class="options-section">
+        <h2>Local Identities</h2>
+        {{if .LocalSones}}
+        <ul class="identity-list">
+            {{range .LocalSones}}
+            <li>
+                <strong>{{.Name}}</strong>
+                <span class="id">{{shortID .ID}}</span>
+                <span class="status">{{.Status}}</span>
+            </li>
+            {{end}}
+        </ul>
+        {{else}}
+        <p>No local identities found.</p>
+        {{end}}
+    </div>
+</div>
+
+<script>
+// Load status on page load
+fetch('/ajax/status')
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            const s = data.data;
+            document.getElementById('status-info').innerHTML = `
+                <p>Local Sones: ${s.localSones}</p>
+                <p>Known Sones: ${s.knownSones}</p>
+                <p>Total Posts: ${s.posts}</p>
+                <p>Notifications: ${s.notifications}</p>
+                <p>Status: ${s.status}</p>
+            `;
+        }
+    });
+</script>
+{{end}}

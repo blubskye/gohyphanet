@@ -1,0 +1,47 @@
+{{template "base" .}}
+{{define "content"}}
+<div class="folder-view">
+    <h2>{{.FolderName}}</h2>
+
+    {{if .Messages}}
+    <table class="message-list">
+        <thead>
+            <tr>
+                <th width="30"></th>
+                <th>From</th>
+                <th>Subject</th>
+                <th>Date</th>
+                <th width="50">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range .Messages}}
+            <tr class="{{if not (.HasFlag 2)}}unread{{end}}" data-uid="{{.UID}}">
+                <td>
+                    <input type="checkbox" class="msg-select" value="{{.UID}}">
+                </td>
+                <td class="sender">
+                    {{if .From}}{{.From.Local}}{{else}}Unknown{{end}}
+                </td>
+                <td class="subject">
+                    <a href="/message/{{$.FolderName}}/{{.UID}}">
+                        {{if .Subject}}{{.Subject}}{{else}}(No Subject){{end}}
+                    </a>
+                </td>
+                <td class="date">
+                    {{.Date.Format "Jan 02, 15:04"}}
+                </td>
+                <td class="actions">
+                    <button class="btn btn-sm btn-delete" onclick="deleteMessage('{{$.FolderName}}', {{.UID}})">Delete</button>
+                </td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+    {{else}}
+    <div class="empty-folder">
+        <p>No messages in this folder.</p>
+    </div>
+    {{end}}
+</div>
+{{end}}

@@ -1,0 +1,49 @@
+{{template "base" .}}
+
+{{define "content"}}
+<div class="page-search">
+    <h1>Search</h1>
+
+    <form method="get" class="search-form">
+        <input type="text" name="q" placeholder="Search posts and Sones..." value="{{.Query}}" autofocus>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    {{if .Query}}
+    <div class="search-results">
+        {{if .Sones}}
+        <div class="search-section">
+            <h2>Sones ({{len .Sones}})</h2>
+            <div class="sone-list">
+                {{range .Sones}}
+                <div class="sone-card">
+                    <a href="/sone/{{.ID}}" class="sone-name">{{.Name}}</a>
+                    {{if .Profile}}
+                    <span class="sone-fullname">{{.Profile.FirstName}} {{.Profile.LastName}}</span>
+                    {{end}}
+                </div>
+                {{end}}
+            </div>
+        </div>
+        {{end}}
+
+        {{if .Posts}}
+        <div class="search-section">
+            <h2>Posts ({{len .Posts}})</h2>
+            <div class="posts">
+                {{range .Posts}}
+                {{template "post" .}}
+                {{end}}
+            </div>
+        </div>
+        {{end}}
+
+        {{if and (not .Sones) (not .Posts)}}
+        <div class="empty-state">
+            <p>No results found for "{{.Query}}"</p>
+        </div>
+        {{end}}
+    </div>
+    {{end}}
+</div>
+{{end}}

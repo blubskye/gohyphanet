@@ -1,0 +1,89 @@
+{{template "base" .}}
+
+{{define "content"}}
+<h1>About GoKeepalive</h1>
+
+<div class="about-panel">
+    <div class="logo-section">
+        <h2>GoKeepalive v0.1.0</h2>
+        <p class="tagline">I'll keep your content alive... forever~ ♡</p>
+    </div>
+
+    <div class="description">
+        <p>GoKeepalive is a content reinsertion tool for Hyphanet/Freenet. It monitors your freesites
+        and automatically reinserts blocks that are becoming unavailable, ensuring your content
+        stays accessible on the network.</p>
+
+        <p>Think of it as a devoted guardian that watches over your content 24/7, never letting
+        it fade away into the void of forgotten data~</p>
+    </div>
+
+    <div class="features-list">
+        <h3>Features</h3>
+        <ul>
+            <li>Automatic availability monitoring</li>
+            <li>Smart sample-based testing</li>
+            <li>Concurrent block reinsertion</li>
+            <li>Real-time progress tracking</li>
+            <li>Configurable thresholds</li>
+            <li>Built-in web interface</li>
+        </ul>
+    </div>
+</div>
+
+<div class="license-panel">
+    <h2>License & Source Code</h2>
+
+    <div class="agpl-notice">
+        <p><strong>GNU Affero General Public License v3.0 (AGPL-3.0)</strong></p>
+
+        <p>GoKeepalive is free software: you can redistribute it and/or modify it under the terms
+        of the GNU Affero General Public License as published by the Free Software Foundation,
+        either version 3 of the License, or (at your option) any later version.</p>
+
+        <p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+        without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+        See the GNU Affero General Public License for more details.</p>
+    </div>
+
+    <div class="source-code">
+        <h3>Source Code</h3>
+        <p>The complete source code for GoKeepalive is available at:</p>
+        <p class="github-link">
+            <a href="https://github.com/blubskye/gohyphanet" target="_blank" rel="noopener">
+                https://github.com/blubskye/gohyphanet
+            </a>
+        </p>
+        <p>As required by the AGPL, you have the right to access, modify, and distribute
+        the source code. If you modify this software and provide it as a network service,
+        you must make your modified source code available to users.</p>
+    </div>
+</div>
+
+<div class="credits-panel">
+    <h2>Credits</h2>
+
+    <p>GoKeepalive is part of the <strong>GoHyphanet</strong> project - a collection of Go tools
+    and libraries for Hyphanet/Freenet.</p>
+
+    <p>Inspired by the original Java Keepalive plugin by the Freenet community.</p>
+
+    <div class="contributors">
+        <h3>Contributors</h3>
+        <ul class="contributor-list">
+            <li><strong>BlubSkye</strong> - Lead Developer</li>
+            <li><strong>Cynthia</strong> - Development & Design</li>
+            <li><strong>Freenet/Hyphanet Team</strong> - Original Keepalive plugin & Freenet platform</li>
+        </ul>
+        <p class="copyright">&copy; 2025 GoHyphanet Contributors</p>
+    </div>
+</div>
+
+<div class="help-panel">
+    <h2>Need Help?</h2>
+    <ul>
+        <li>Report issues: <a href="https://github.com/blubskye/gohyphanet/issues" target="_blank">GitHub Issues</a></li>
+        <li>Documentation: <a href="https://github.com/blubskye/gohyphanet#readme" target="_blank">README</a></li>
+    </ul>
+</div>
+{{end}}

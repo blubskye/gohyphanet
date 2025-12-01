@@ -1,0 +1,52 @@
+{{template "base" .}}
+{{define "content"}}
+<div class="settings-view">
+    <h2>Settings</h2>
+
+    <div class="settings-section">
+        <h3>Account Information</h3>
+        <div class="info-grid">
+            <div class="info-row">
+                <span class="label">Nickname:</span>
+                <span class="value">{{.Account.Nickname}}</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Email Address:</span>
+                <span class="value">{{.Account.GetEmailAddress.String}}</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Account Created:</span>
+                <span class="value">{{.Account.Created.Format "Jan 02, 2006"}}</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Last Login:</span>
+                <span class="value">{{.Account.LastLogin.Format "Jan 02, 2006 15:04:05"}}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="settings-section">
+        <h3>Server Information</h3>
+        <div class="info-grid">
+            <div class="info-row">
+                <span class="label">SMTP Server:</span>
+                <span class="value">localhost:3025</span>
+            </div>
+            <div class="info-row">
+                <span class="label">IMAP Server:</span>
+                <span class="value">localhost:3143</span>
+            </div>
+        </div>
+        <p class="help-text">Use these settings to configure your email client.</p>
+    </div>
+
+    <div class="settings-section">
+        <h3>Folders</h3>
+        <ul class="settings-folders">
+            {{range .Folders}}
+            <li>{{.}}</li>
+            {{end}}
+        </ul>
+    </div>
+</div>
+{{end}}

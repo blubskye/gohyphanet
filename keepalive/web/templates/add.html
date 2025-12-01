@@ -1,0 +1,36 @@
+{{template "base" .}}
+
+{{define "content"}}
+<h1>Add Site</h1>
+
+<form action="/add" method="POST" class="form">
+    <div class="form-group">
+        <label for="name">Site Name</label>
+        <input type="text" id="name" name="name" placeholder="My Freesite" class="form-control">
+        <p class="form-help">A friendly name for this site</p>
+    </div>
+
+    <div class="form-group">
+        <label for="uri">URI *</label>
+        <input type="text" id="uri" name="uri" required
+               placeholder="USK@.../sitename/0/" class="form-control">
+        <p class="form-help">The Freenet URI (USK, SSK, or CHK)</p>
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Add Site</button>
+        <a href="/sites" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
+
+<div class="help-section">
+    <h3>About URIs</h3>
+    <p>You can add sites using any of these URI types:</p>
+    <ul>
+        <li><strong>USK</strong> - Updateable Subspace Key (freesites)</li>
+        <li><strong>SSK</strong> - Signed Subspace Key (versioned content)</li>
+        <li><strong>CHK</strong> - Content Hash Key (static files)</li>
+    </ul>
+    <p>The reinserter will parse the site's metadata and extract all blocks for monitoring.</p>
+</div>
+{{end}}

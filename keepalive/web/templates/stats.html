@@ -1,0 +1,97 @@
+{{template "base" .}}
+
+{{define "content"}}
+<h1>Statistics</h1>
+
+<div class="stats-panel">
+    <h2>Current Session</h2>
+    <div class="stats-grid">
+        <div class="stat-item">
+            <span class="stat-value">{{formatDuration .Stats.Duration}}</span>
+            <span class="stat-label">Duration</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-value">{{.Stats.SitesProcessed}}</span>
+            <span class="stat-label">Sites Processed</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-value">{{.Stats.SegmentsProcessed}}</span>
+            <span class="stat-label">Segments Total</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-value">{{.Stats.SegmentsSkipped}}</span>
+            <span class="stat-label">Segments Skipped</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-value">{{.Stats.SegmentsHealed}}</span>
+            <span class="stat-label">Segments Healed</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-value">{{.Stats.SegmentsFailed}}</span>
+            <span class="stat-label">Segments Failed</span>
+        </div>
+    </div>
+</div>
+
+<div class="stats-panel">
+    <h2>Block Operations</h2>
+    <div class="stats-grid">
+        <div class="stat-item">
+            <span class="stat-value">{{.Stats.BlocksFetched}}</span>
+            <span class="stat-label">Blocks Fetched</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-value">{{.Stats.BlocksFetchFailed}}</span>
+            <span class="stat-label">Fetch Failures</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-value">{{.Stats.BlocksInserted}}</span>
+            <span class="stat-label">Blocks Inserted</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-value">{{.Stats.BlocksInsertFailed}}</span>
+            <span class="stat-label">Insert Failures</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-value">{{formatDuration .Stats.AvgFetchTime}}</span>
+            <span class="stat-label">Avg Fetch Time</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-value">{{formatDuration .Stats.AvgInsertTime}}</span>
+            <span class="stat-label">Avg Insert Time</span>
+        </div>
+    </div>
+</div>
+
+{{if .History}}
+<div class="stats-panel">
+    <h2>Session History</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Site</th>
+                <th>Started</th>
+                <th>Duration</th>
+                <th>Success</th>
+                <th>Segments</th>
+                <th>Healed</th>
+                <th>Availability</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range .History}}
+            <tr>
+                <td>{{.SiteName}}</td>
+                <td>{{formatTime .StartTime}}</td>
+                <td>{{formatDuration .Duration}}</td>
+                <td>{{if .Success}}<span class="badge badge-success">Yes</span>{{else}}<span class="badge badge-danger">No</span>{{end}}</td>
+                <td>{{.Segments}}</td>
+                <td>{{.SegmentsHealed}}</td>
+                <td>{{formatPercent .Availability}}</td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+</div>
+{{end}}
+{{end}}

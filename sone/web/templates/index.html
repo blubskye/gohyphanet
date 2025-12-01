@@ -1,0 +1,107 @@
+{{template "base" .}}
+
+{{define "content"}}
+<div class="page-index">
+    <h1>Your Feed</h1>
+
+    {{if .CurrentSone}}
+    <div class="quick-post">
+        <form id="quick-post-form" onsubmit="return submitQuickPost(event)">
+            <textarea name="text" placeholder="What's on your mind?" rows="3" required></textarea>
+            <div class="quick-post-actions">
+                <button type="submit" class="btn btn-primary">Post</button>
+            </div>
+        </form>
+    </div>
+    {{else}}
+    <div class="info-box">
+        <p><a href="/login">Login</a> to create posts and interact with other Sones.</p>
+    </div>
+    {{end}}
+
+    <div class="posts">
+        {{if .Posts}}
+            {{range .Posts}}
+            {{template "post" .}}
+            {{end}}
+        {{else}}
+        <div class="empty-state">
+            <p>No posts yet.</p>
+            {{if .CurrentSone}}
+            <p>Follow some Sones or create your first post!</p>
+            {{end}}
+        </div>
+        {{end}}
+    </div>
+</div>
+{{end}}
+
+{{define "post"}}
+<article class="post" id="post-{{.ID}}">
+    <div class="post-header">
+        {{if .Author}}
+        <a href="/sone/{{.Author.ID}}" class="post-author">
+            <span class="author-name">{{.Author.Name}}</span>
+        </a>
+        {{else}}
+        <span class="post-author unknown">Unknown</span>
+        {{end}}
+
+        {{if .Recipient}}
+        <span class="post-recipient">
+            → <a href="/sone/{{.Recipient.ID}}">{{.Recipient.Name}}</a>
+        </span>
+        {{end}}
+
+        <a href="/post/{{.ID}}" class="post-time">{{formatTime .Time}}</a>
+    </div>
+
+    <div class="post-content">
+        {{safeHTML .TextHTML}}
+    </div>
+
+    <div class="post-actions">
+        <button class="btn-action {{if .IsLiked}}active{{end}}" onclick="toggleLike('{{.ID}}', {{.IsLiked}})">
+            ♥ {{if .LikeCount}}{{.LikeCount}}{{end}}
+        </button>
+        <button class="btn-action" onclick="showReplyForm('{{.ID}}')">
+            Reply {{if .ReplyCount}}({{.ReplyCount}}){{end}}
+        </button>
+        <button class="btn-action {{if .IsBookmarked}}active{{end}}" onclick="toggleBookmark('{{.ID}}', {{.IsBookmarked}})">
+            ★ Bookmark
+        </button>
+    </div>
+
+    {{if .Replies}}
+    <div class="post-replies">
+        {{range .Replies}}
+        {{template "reply" .}}
+        {{end}}
+    </div>
+    {{end}}
+
+    <div class="reply-form" id="reply-form-{{.ID}}" style="display: none;">
+        <form onsubmit="return submitReply(event, '{{.ID}}')">
+            <textarea name="text" placeholder="Write a reply..." rows="2" required></textarea>
+            <button type="submit" class="btn btn-small">Reply</button>
+            <button type="button" class="btn btn-small btn-secondary" onclick="hideReplyForm('{{.ID}}')">Cancel</button>
+        </form>
+    </div>
+</article>
+{{end}}
+
+{{define "reply"}}
+<div class="reply" id="reply-{{.ID}}">
+    <div class="reply-header">
+        {{if .Author}}
+        <a href="/sone/{{.Author.ID}}" class="reply-author">{{.Author.Name}}</a>
+        {{else}}
+        <span class="reply-author unknown">Unknown</span>
+        {{end}}
+        <span class="reply-time">{{formatTime .Time}}</span>
+    </div>
+    <div class="reply-content">
+        {{safeHTML .TextHTML}}
+    </div>
+</div>
+{{end}}

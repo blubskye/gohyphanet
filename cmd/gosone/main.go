@@ -406,8 +406,15 @@ func cmdView(args []string) error {
 		if s.Profile.FirstName != "" || s.Profile.LastName != "" {
 			fmt.Printf("Name: %s %s\n", s.Profile.FirstName, s.Profile.LastName)
 		}
-		if s.Profile.BirthYear > 0 {
-			fmt.Printf("Born: %d/%d/%d\n", s.Profile.BirthDay, s.Profile.BirthMonth, s.Profile.BirthYear)
+		if s.Profile.BirthYear != nil && *s.Profile.BirthYear > 0 {
+			day, month, year := 0, 0, *s.Profile.BirthYear
+			if s.Profile.BirthDay != nil {
+				day = *s.Profile.BirthDay
+			}
+			if s.Profile.BirthMonth != nil {
+				month = *s.Profile.BirthMonth
+			}
+			fmt.Printf("Born: %d/%d/%d\n", day, month, year)
 		}
 		for _, field := range s.Profile.Fields {
 			fmt.Printf("%s: %s\n", field.Name, field.Value)
@@ -685,12 +692,6 @@ func printPost(core *sone.Core, post *sone.Post) {
 		text = text[:200] + "..."
 	}
 	fmt.Printf("  %s\n", text)
-
-	// Show reply count
-	replyCount := len(post.Replies)
-	if replyCount > 0 {
-		fmt.Printf("  [%d replies]\n", replyCount)
-	}
 
 	// Show post ID (truncated)
 	fmt.Printf("  ID: %s\n", shortID(post.ID))

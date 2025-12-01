@@ -512,6 +512,7 @@ type Image struct {
 	Description  string
 	Width        int
 	Height       int
+	MimeType     string
 }
 
 // NewImage creates a new image
